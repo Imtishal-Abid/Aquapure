@@ -1,0 +1,26 @@
+{
+    "svm": {
+        "accuracy": 0.6692,
+        "precision": 0.677,
+        "recall": 0.6692,
+        "f1score": 0.6232
+    },
+    "knn": {
+        "accuracy": 0.6113,
+        "precision": 0.5909,
+        "recall": 0.6113,
+        "f1score": 0.5884
+    },
+    "nn": {
+        "accuracy": 0.6296,
+        "precision": 0.6172,
+        "recall": 0.6296,
+        "f1score": 0.6182
+    },
+    "nb": {
+        "accuracy": 0.6143,
+        "precision": 0.5859,
+        "recall": 0.6143,
+        "f1score": 0.5569
+    }
+}

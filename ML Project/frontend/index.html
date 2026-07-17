@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AquaPure Dashboard</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+  <div class="dashboard">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="logo">
+        <h2>💧 AquaPure</h2>
+        <p>AI Predictor</p>
+      </div>
+      <nav class="nav-menu">
+        <a href="#" class="nav-item active" data-target="predictor-view">
+          <span class="icon">🔬</span> Predictor
+        </a>
+        <a href="#" class="nav-item" data-target="individual-view">
+          <span class="icon">📊</span> Individual Models
+        </a>
+        <a href="#" class="nav-item" data-target="compare-view">
+          <span class="icon">📈</span> Comparison
+        </a>
+        <a href="#" class="nav-item" data-target="reports-view">
+          <span class="icon">📄</span> Reports
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+
+      <!-- Predictor View -->
+      <section id="predictor-view" class="view-section active">
+        <header class="section-header">
+          <h1>Water Potability Predictor</h1>
+          <p>Enter water quality parameters to analyze safety using ML models.</p>
+        </header>
+
+        <div class="card form-section">
+          <form id="predict-form">
+            <div class="form-grid">
+              <div class="form-group">
+                <label>pH Level</label>
+                <input type="number" step="any" name="ph" placeholder="e.g. 7.0" required />
+              </div>
+              <div class="form-group">
+                <label>Hardness (mg/L)</label>
+                <input type="number" step="any" name="Hardness" placeholder="e.g. 150.0" required />
+              </div>
+              <div class="form-group">
+                <label>Solids (ppm)</label>
+                <input type="number" step="any" name="Solids" placeholder="e.g. 20000.0" required />
+              </div>
+              <div class="form-group">
+                <label>Chloramines (ppm)</label>
+                <input type="number" step="any" name="Chloramines" placeholder="e.g. 7.0" required />
+              </div>
+              <div class="form-group">
+                <label>Sulfate (mg/L)</label>
+                <input type="number" step="any" name="Sulfate" placeholder="e.g. 350.0" required />
+              </div>
+              <div class="form-group">
+                <label>Conductivity (μS/cm)</label>
+                <input type="number" step="any" name="Conductivity" placeholder="e.g. 400.0" required />
+              </div>
+              <div class="form-group">
+                <label>Organic Carbon (ppm)</label>
+                <input type="number" step="any" name="Organic_carbon" placeholder="e.g. 14.0" required />
+              </div>
+              <div class="form-group">
+                <label>Trihalomethanes (μg/L)</label>
+                <input type="number" step="any" name="Trihalomethanes" placeholder="e.g. 66.0" required />
+              </div>
+              <div class="form-group">
+                <label>Turbidity (NTU)</label>
+                <input type="number" step="any" name="Turbidity" placeholder="e.g. 3.9" required />
+              </div>
+              <div class="form-group">
+                <label>Select Classifier</label>
+                <div class="select-wrapper">
+                  <select name="model">
+                    <option value="svm">Support Vector Machine (SVM)</option>
+                    <option value="knn">K-Nearest Neighbors (KNN)</option>
+                    <option value="nn">Neural Network (MLP)</option>
+                    <option value="nb">Naive Bayes</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="btn-primary glow-effect">Analyze Water Quality</button>
+          </form>
+
+          <div id="result-box" class="result-box hidden">
+            <h2 id="result-label"></h2>
+            <div class="result-details">
+              <span id="result-confidence" class="badge"></span>
+              <span id="result-model" class="badge"></span>
+            </div>
+            <div class="action-buttons mt-4">
+              <button id="btn-store" class="btn-secondary">💾 Save Result to Database</button>
+            </div>
+          </div>
+          <div id="store-message" class="hidden message"></div>
+
+          <div id="error-box" class="error-box hidden">
+            <p id="error-message"></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Individual Models View -->
+      <section id="individual-view" class="view-section">
+        <header class="section-header">
+          <h1>Individual Model Performance</h1>
+          <p>Detailed metric breakdown for each machine learning classifier.</p>
+        </header>
+
+        <div class="charts-grid">
+          <div class="card chart-card">
+            <h3>Support Vector Machine (SVM)</h3>
+            <div class="chart-container-sm">
+              <canvas id="chart-svm"></canvas>
+            </div>
+          </div>
+          <div class="card chart-card">
+            <h3>K-Nearest Neighbors (KNN)</h3>
+            <div class="chart-container-sm">
+              <canvas id="chart-knn"></canvas>
+            </div>
+          </div>
+          <div class="card chart-card">
+            <h3>Neural Network (MLP)</h3>
+            <div class="chart-container-sm">
+              <canvas id="chart-nn"></canvas>
+            </div>
+          </div>
+          <div class="card chart-card">
+            <h3>Naive Bayes</h3>
+            <div class="chart-container-sm">
+              <canvas id="chart-nb"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Comparison View -->
+      <section id="compare-view" class="view-section">
+        <header class="section-header">
+          <h1>Model Comparison</h1>
+          <p>Compare Accuracy, Precision, Recall, and F1-Score across all models.</p>
+        </header>
+
+        <div class="card analytics-section">
+          <div class="chart-container">
+            <canvas id="metricsChart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reports View -->
+      <section id="reports-view" class="view-section">
+        <header class="section-header">
+          <h1>Database & Reports</h1>
+          <p>Export historical prediction data saved in the database.</p>
+        </header>
+
+        <div class="card report-section">
+          <div class="report-container">
+            <div class="report-icon">📄</div>
+            <h2>PDF Report Generator</h2>
+            <p>Generate a comprehensive PDF report containing all previously stored water quality predictions.</p>
+            <button id="btn-report" class="btn-outline glow-effect">Generate PDF Report</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+
+</html>

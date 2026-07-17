@@ -1,0 +1,13 @@
+# Python environment and cache
+__pycache__/
+venv/
+.env
+
+# Data and Models
+*.db
+*.csv
+*.pkl
+*.h5
+
+# VS Code settings
+.vscode/
